@@ -18,17 +18,17 @@ document.addEventListener('DOMContentLoaded', () => {
       let keys = [],
         str = '';
 
-      function createHeading() {
+      function createHeading(data, tableEl) {
         let tmp = '';
         tmp += '<thead><tr>';
-        for (let key in bd[0]) {
+        for (let key in data) {
           keys.push(key);
           tmp += '<th> ' + key + '</th>';
         }
         tmp += '</tr></thead>';
-        table.innerHTML = tmp;
+        tableEl.innerHTML = tmp;
       }
-      createHeading();
+      createHeading(bd[0], table);
 
       function createTableItems(item) {
         str += '<tr>';
@@ -189,7 +189,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       }
       function removeDataInBD(index) {
-        let id=table.rows[index+1].cells[0].textContent;
+        let id = table.rows[index + 1].cells[0].textContent;
         const deleteResource = async (url, opt) => {
           const res = await fetch(url, opt);
           if (!res.ok) {
@@ -198,9 +198,9 @@ document.addEventListener('DOMContentLoaded', () => {
           return await res.json();
         };
 
-        deleteResource('http://localhost:3000/bd/'+id, {
+        deleteResource('http://localhost:3000/bd' + id, {
           method: 'DELETE',
-          headers: { 'Content-Type': 'application/json;charset=utf-8' }
+          headers: { 'Content-Type': 'application/json;charset=utf-8' },
         })
           .then((data) => {
             console.log(data);
@@ -209,5 +209,54 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error(err);
           });
       }
+
+      function managerTables(wrapper, data, position, firstCell, secondCell) {
+        let acc = new Set();
+        data.reduce((acc, person) => {
+          if (acc.has(person[position])) {
+            acc.add(person[position]);
+            return acc;
+          }
+          return acc.add(person[position]);
+        }, acc);
+        let positionArr = Array.from(acc);
+
+        function calculateStats(cell) {
+          let cellSumArr = [];
+          for (let i = 0; i < positionArr.length; i++) {
+            let sum = 0;
+            data.forEach((item) => {
+              if (item[position] === positionArr[i]) {
+                console.log(positionArr[i]);
+                sum += +item[cell];
+              }
+            });
+            console.log(sum);
+            cellSumArr.push(sum);
+          }
+          return cellSumArr;
+        }
+        let firstColumn = calculateStats(firstCell),
+          secondColumn = calculateStats(secondCell);
+
+        const managerTable = document.createElement('table');
+        wrapper.append(table);
+        createHeading([position, firstCell, secondCell], table);
+        function showManagerStats() {
+          positionArr.forEach((item, index) => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `<td>${item}</td><td>${firstColumn[index]}</td><td>${secondCell[index]}</td>`;
+            managerTable.append(tr);
+          });
+        }
+        showManagerStats();
+      }
+      managerTables(
+        document.querySelector('.manager'),
+        bd,
+        keys[7],
+        keys[2],
+        keys[3]
+      );
     });
 });
