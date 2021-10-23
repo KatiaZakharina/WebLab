@@ -18,17 +18,20 @@ document.addEventListener('DOMContentLoaded', () => {
       let keys = [],
         str = '';
 
+      for (let key in bd[0]) {
+        keys.push(key);
+      }
+
       function createHeading(data, tableEl) {
         let tmp = '';
         tmp += '<thead><tr>';
-        for (let key in data) {
-          keys.push(key);
+        for (let key of data) {
           tmp += '<th> ' + key + '</th>';
         }
         tmp += '</tr></thead>';
         tableEl.innerHTML = tmp;
       }
-      createHeading(bd[0], table);
+      createHeading(keys, table);
 
       function createTableItems(item) {
         str += '<tr>';
@@ -171,9 +174,6 @@ document.addEventListener('DOMContentLoaded', () => {
             headers: { 'Content-Type': 'application/json;charset=utf-8' },
             body: JSON.stringify(obj),
           })
-            .then((data) => {
-              console.log(data);
-            })
             .catch((err) => {
               console.error(err);
             });
@@ -202,9 +202,6 @@ document.addEventListener('DOMContentLoaded', () => {
           method: 'DELETE',
           headers: { 'Content-Type': 'application/json;charset=utf-8' },
         })
-          .then((data) => {
-            console.log(data);
-          })
           .catch((err) => {
             console.error(err);
           });
@@ -227,11 +224,9 @@ document.addEventListener('DOMContentLoaded', () => {
             let sum = 0;
             data.forEach((item) => {
               if (item[position] === positionArr[i]) {
-                console.log(positionArr[i]);
                 sum += +item[cell];
               }
             });
-            console.log(sum);
             cellSumArr.push(sum);
           }
           return cellSumArr;
@@ -240,12 +235,12 @@ document.addEventListener('DOMContentLoaded', () => {
           secondColumn = calculateStats(secondCell);
 
         const managerTable = document.createElement('table');
-        wrapper.append(table);
-        createHeading([position, firstCell, secondCell], table);
+        wrapper.append(managerTable);
+        createHeading([position, firstCell, secondCell], managerTable);
         function showManagerStats() {
           positionArr.forEach((item, index) => {
             const tr = document.createElement('tr');
-            tr.innerHTML = `<td>${item}</td><td>${firstColumn[index]}</td><td>${secondCell[index]}</td>`;
+            tr.innerHTML = `<td>${item}</td><td>${firstColumn[index]}</td><td>${secondColumn[index]}</td>`;
             managerTable.append(tr);
           });
         }
