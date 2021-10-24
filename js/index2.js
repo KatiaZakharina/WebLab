@@ -1,4 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
+  alert(
+    'Для работы сайта установите зависимости командой "npm i" и запустите json-server командой "npm run start"'
+  );
   let bd;
   const getResource = async (url) => {
     const res = await fetch(url);
@@ -173,10 +176,9 @@ document.addEventListener('DOMContentLoaded', () => {
             method: 'POST',
             headers: { 'Content-Type': 'application/json;charset=utf-8' },
             body: JSON.stringify(obj),
-          })
-            .catch((err) => {
-              console.error(err);
-            });
+          }).catch((err) => {
+            console.error(err);
+          });
         }
       }
       table.addEventListener('click', removeData);
@@ -197,14 +199,13 @@ document.addEventListener('DOMContentLoaded', () => {
           }
           return await res.json();
         };
-
-        deleteResource('http://localhost:3000/bd' + id, {
+        console.log(`http://localhost:3000/bd/' + ${id}`);
+        deleteResource('http://localhost:3000/bd/' + id, {
           method: 'DELETE',
           headers: { 'Content-Type': 'application/json;charset=utf-8' },
-        })
-          .catch((err) => {
-            console.error(err);
-          });
+        }).catch((err) => {
+          console.error(err);
+        });
       }
 
       function managerTables(wrapper, data, position, firstCell, secondCell) {
