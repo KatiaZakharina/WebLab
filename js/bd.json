@@ -151,16 +151,6 @@
       "менеджер": "Will"
     },
     {
-      "id": "f719fa70-36f5-56c7-9bd7-dd1f64ff7a51",
-      "productName": "Refined Cotton Shirt",
-      "quantity": 97,
-      "price": 967,
-      "producer": "Ferry Group",
-      "cайт": "https://chaim.com",
-      "кассир": "Merritt",
-      "менеджер": "Sylvester"
-    },
-    {
       "id": "2baba2c5-3c81-550d-b6df-6fe9de4778bc",
       "productName": "Intelligent Cotton Towels",
       "quantity": 0,
@@ -549,6 +539,26 @@
       "cайт": "1",
       "кассир": "1",
       "менеджер": "1"
+    },
+    {
+      "id": "5",
+      "productName": "5",
+      "quantity": "5",
+      "price": "5",
+      "producer": "5",
+      "cайт": "5",
+      "кассир": "5",
+      "менеджер": "5"
+    },
+    {
+      "id": "3",
+      "productName": "3",
+      "quantity": "3",
+      "price": "3",
+      "producer": "3",
+      "cайт": "3",
+      "кассир": "3",
+      "менеджер": "3"
     }
   ]
 }
