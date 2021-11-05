@@ -1,8 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-  alert(
-    'Для работы сайта установите зависимости командой "npm i" и запустите json-server командой "npm run start"'
-  );
-  let bd;
   const getResource = async (url) => {
     const res = await fetch(url);
     if (!res.ok) {
@@ -58,6 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
         tr.innerHTML = tmp;
         showResult(result);
       }
+
       function showResult(
         result,
         resultingRow = table.rows[table.rows.length - 1]
@@ -66,9 +63,9 @@ document.addEventListener('DOMContentLoaded', () => {
           resultingRow.cells[i].textContent = result[i];
         }
       }
+
       function showAverage() {
         let avg = getAvg();
-
         if (document.querySelector('.Average')) {
           let avgEl = document.querySelector('.Average');
           showResult(avg, avgEl.parentElement);
@@ -76,6 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
           createResultingRow('Average', avg);
         }
       }
+      
       function getAvg() {
         let avg = [];
         for (let j = 0; j < keys.length - 1; j++) {
