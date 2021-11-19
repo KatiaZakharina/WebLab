@@ -1,36 +1,146 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
+<html lang="en" ng-app=shopApp>
+
+<head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>2 lab | Zakharina</title>
+    <title>3 lab | Zakharina</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;700&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="style.css" />
-  </head>
+</head>
 
-  <body>
+<body ng-controller="purchaseCtrl">
     <div class="container">
-      <p class="instruction">
-        Для работы сайта установите зависимости командой "npm i" и запустите
-        json-server командой "npm run start"
-      </p>
-      <!-- <p class="instruction">
-        Комментарий к работе: перезагрузки при добавлении и удалении данных быть
-        не должно, но избавится от нее не получилось
-      </p> -->
-      <div class="post">
-        <p class="post-title">Add element:</p>
-        <form class="post-inputs" id="post-inputs" name="post-inputs"></form>
-      </div>
-      <table id="result" class="table"></table>
-      <div class="manager"></div>
+        <div class="post">
+            <p class="post-title">Add element:</p>
+            <form class="post-inputs" id="post-inputs" name="post-inputs">
+                <input ng-repeat="field in fieldList" class="post-input" type="text" required=""
+                    placeholder="{{field}}">
+                <button ng-click="addNewPurchase()" class="post-btn" type="submit" form="post-inputs">Push</button>
+            </form>
+        </div>
+        <table id="result" class="table">
+            <thead>
+                <tr>
+                    <th ng-repeat="field in fieldList">{{field}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="item in list">
+                    <td ng-repeat="value in item">{{value}}</td>
+                    <td><button class="close-btn" data-close=""></button></td>
+                </tr>
+                <tr>
+                    <td class="Average">Average:</td>
+                    <td ng-repeat="sumEl in sum track by $index">{{sumEl}}</td>
+                </tr>
+                <tr>
+                    <td class="Sum">Sum:</td>
+                    <td ng-repeat="avgEl in avg track by $index">{{avgEl}}</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="manager">
+            <table>
+                <thead>
+                    <tr>
+                        <th> менеджер</th>
+                        <th> quantity</th>
+                        <th> price</th>
+                    </tr>
+                </thead>
+                <tr>
+                    <td>Jenifer</td>
+                    <td>593</td>
+                    <td>6940</td>
+                </tr>
+                <tr>
+                    <td>Sylvester</td>
+                    <td>914</td>
+                    <td>8127</td>
+                </tr>
+            </table>
+        </div>
     </div>
-    <script src="js/index2.js"></script>
-  </body>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="./js/index.js"></script>
+
+</body>
+
 </html>
+
+
+<!-- <!doctype html>
+<html ng-app="purchaseApp">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+</head>
+<body ng-controller="purchaseController">
+    <div class="page-header">
+        <h1> Список покупок </h1>
+    </div>
+    <div class="panel">
+        <div class="form-inline">
+            <div class="form-group">
+                <div class="col-md-8">
+                    <input class="form-control" ng-model="text" placeholder = "Название" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-6">
+                    <input type="number" class="form-control" ng-model="price" placeholder="Цена" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-8">
+                    <button class="btn btn-default" ng-click="addItem(text, price)">Добавить</button>
+                </div>
+            </div>
+        </div>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Предмет</th>
+                    <th>Цена</th>
+                    <th>Куплено</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="item in list.items">
+                    <td>{{item.purchase}}</td>
+                    <td>{{item.price}}</td>
+                    <td><input type="checkbox" ng-model="item.done" /></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+ 
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+<script>
+var model = {
+    items: [
+        { purchase: "Хлеб", done: false, price: 15.9 },
+        { purchase: "Масло", done: false, price: 60 },
+        { purchase: "Картофель", done: true, price: 22.6 },
+        { purchase: "Сыр", done: false, price:310 }
+    ]
+};
+var purchaseApp = angular.module("purchaseApp", []);
+    purchaseApp.controller("purchaseController", function ($scope) {
+    $scope.list = model;
+    $scope.addItem = function (text, price) {
+        price = parseFloat(price); // преобразуем введенное значение к числу
+        if(text != "" && !isNaN(price)) // если текст установлен и введено число, то добавляем
+        {
+            $scope.list.items.push({ purchase: text, price: price, done: false });
+        }
+    }
+});
+</script>
+</body>
+</html> -->
