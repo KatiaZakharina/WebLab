@@ -1,49 +1,26 @@
-let db = [
-  {
-    id: '365b2f56-d827-5974-b250-ee99dc480ed7',
-    productName: 'Awesome Cotton Chips',
-    quantity: 93,
-    price: 96,
-    producer: 'Wunsch, Pagac and Durgan',
-    cайт: 'http://dion.com',
-    кассир: 'Gust',
-    менеджер: 'Jenifer',
-  },
-  {
-    id: '6933b066-69b8-5419-b545-cebb7926e072',
-    productName: 'Gorgeous Rubber Gloves',
-    quantity: 50,
-    price: 922,
-    producer: 'Morar - Lubowitz',
-    cайт: 'https://jefferey.net',
-    кассир: 'Payton',
-    менеджер: 'Sylvester',
-  },
-  {
-    id: '0904a938-788f-555c-80f0-f02edd5dfbaf',
-    productName: 'Fantastic Wooden Soap',
-    quantity: 28,
-    price: 240,
-    producer: 'Stiedemann - Zieme',
-    cайт: 'http://enos.net',
-    кассир: 'Federico',
-    менеджер: 'Ericka',
-  },
-];
-let shopApp = angular.module('shopApp', []); //создание модула
+let shopApp = angular.module('shopApp', []);
 
 shopApp.controller('purchaseCtrl', function ($scope, $http) {
+  $http({
+    method: 'GET',
+    url: 'http://localhost:3000/bd',
+    headers: {
+      'Content-type': 'application/json;charset=utf-8',
+    },
+  }).then(function success(response) {
+    $scope.list = response.data;
 
-  $http({ method: 'GET', url: 'http://localhost:3000/bd' }).then(
-    function success(response) {
-      console.log(response);
-      $scope.list = response.data;
+    $scope.fieldList = [];
+    for (let fieldName in $scope.list[0]) {
+      $scope.fieldList.push(fieldName);
+    }
 
-      $scope.fieldList = [];
-      for (let fieldName in $scope.list[0]) {
-        $scope.fieldList.push(fieldName);
-      }
+    $scope.formList = $scope.fieldList.reduce((acc, curr) => {
+      acc[curr] = null;
+      return acc;
+    }, {});
 
+    function getSum() {
       $scope.sum = $scope.fieldList.map((field) => {
         let sumInColumn = 0;
         $scope.list.forEach((obj) => {
@@ -52,16 +29,101 @@ shopApp.controller('purchaseCtrl', function ($scope, $http) {
         return sumInColumn || '';
       });
       $scope.sum.shift();
-
-      $scope.avg = $scope.sum.map((sum) => ~~(sum / $scope.list.length) || '');
-
-      $scope.addNewPurchase = function () {
-        let newObj = {};
-        $scope.fieldList.forEach((field) => {
-          newObj[field] = $scope[field];
-        });
-        $scope.list.push(newObj);
-      };
     }
-  );
+    function getAvg() {
+      $scope.avg = $scope.sum.map((sum) => ~~(sum / $scope.list.length) || '');
+    }
+
+    getSum();
+    getAvg();
+
+    $scope.action = 'Add';
+    $scope.addNewPurchase = function (e) {
+      if ($scope.action == 'Edit') {
+        editPurchaseInTable();
+        return;
+      }
+      $scope.action = 'Add';
+      if (document.querySelector(!$scope.postInputs.$valid)) return;
+      for (let key in $scope.formList) {
+        if (!$scope.formList[key]) {
+          $scope.formList[key] = '';
+        }
+      }
+      $scope.list.push($scope.formList);
+      postPurchaseInDB($scope.formList);
+      $scope.formList = {};
+      getSum();
+      getAvg();
+
+      function postPurchaseInDB(data) {
+        $http({
+          method: 'POST',
+          url: 'http://localhost:3000/bd',
+          headers: {
+            'Content-type': 'application/json;charset=utf-8',
+          },
+          data: data,
+        });
+      }
+    };
+
+    $scope.deletePurchase = function () {
+      deletePurchaseFromDB($scope.list[this.$index].id);
+      $scope.list.splice(this.$index, 1);
+
+      function deletePurchaseFromDB(id) {
+        $http({
+          method: 'DELETE',
+          url: 'http://localhost:3000/bd/' + id,
+          headers: {
+            'Content-type': 'application/json;charset=utf-8',
+          },
+        });
+      }
+    };
+
+    $scope.editPurchase = function () {
+      $scope.action = 'Edit';
+      for (field in $scope.formList) {
+        $scope.formList[field] = $scope.list[this.$index][field];
+      }
+      $scope.currentId = this.$index;
+    };
+
+    function editPurchaseInTable() {
+      $http({
+        method: 'PUT',
+        url: 'http://localhost:3000/bd/' + $scope.list[$scope.currentId].id,
+        data: $scope.formList,
+        headers: {
+          'Content-type': 'application/json;charset=utf-8',
+        },
+      });
+    }
+
+    (function getManagerInfo(keyColumnNumb = 6, firstCrit = 2, secondCrit = 3) {
+      $scope.keyProperty = $scope.fieldList[7];
+      $scope.allKeyValue = $scope.list.map((obj) => {
+        return obj[$scope.keyProperty];
+      });
+      $scope.allKeyValue = [...new Set($scope.allKeyValue)];
+      $scope.allKeyValue = $scope.allKeyValue.map((manager) => {
+        return {
+          name: manager,
+          firstCrit: getTotal(firstCrit, manager),
+          secondCrit: getTotal(secondCrit, manager),
+        };
+      });
+      function getTotal(columnNum, manager) {
+        let total = 0;
+        $scope.list.forEach((obj) => {
+          if (obj[$scope.keyProperty] == manager) {
+            total += +obj[$scope.fieldList[columnNum]];
+          }
+        });
+        return total;
+      }
+    })();
+  });
 });

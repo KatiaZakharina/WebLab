@@ -1,46 +1,6 @@
 {
   "bd": [
     {
-      "id": "365b2f56-d827-5974-b250-ee99dc480ed7",
-      "productName": "Awesome Cotton Chips",
-      "quantity": 93,
-      "price": 96,
-      "producer": "Wunsch, Pagac and Durgan",
-      "cайт": "http://dion.com",
-      "кассир": "Gust",
-      "менеджер": "Jenifer"
-    },
-    {
-      "id": "6933b066-69b8-5419-b545-cebb7926e072",
-      "productName": "Gorgeous Rubber Gloves",
-      "quantity": 50,
-      "price": 922,
-      "producer": "Morar - Lubowitz",
-      "cайт": "https://jefferey.net",
-      "кассир": "Payton",
-      "менеджер": "Sylvester"
-    },
-    {
-      "id": "0904a938-788f-555c-80f0-f02edd5dfbaf",
-      "productName": "Fantastic Wooden Soap",
-      "quantity": 28,
-      "price": 240,
-      "producer": "Stiedemann - Zieme",
-      "cайт": "http://enos.net",
-      "кассир": "Federico",
-      "менеджер": "Ericka"
-    },
-    {
-      "id": "cf9c2fd9-1ac3-5c5b-b68d-2e808ce804b1",
-      "productName": "Licensed Plastic Salad",
-      "quantity": 43,
-      "price": 286,
-      "producer": "Cummerata - Ebert",
-      "cайт": "https://ephraim.biz",
-      "кассир": "Erich",
-      "менеджер": "Jenifer"
-    },
-    {
       "id": "9281f086-61b8-57fa-a2cb-bb437d4026cc",
       "productName": "Licensed Frozen Gloves",
       "quantity": 40,
@@ -461,16 +421,6 @@
       "менеджер": "Ericka"
     },
     {
-      "id": "204299f1-de05-5134-af50-acdb1f59fa3a",
-      "productName": "Generic Wooden Bacon",
-      "quantity": 38,
-      "price": 13,
-      "producer": "Grant - Paucek",
-      "cайт": "http://donny.biz",
-      "кассир": "Buster",
-      "менеджер": "Ericka"
-    },
-    {
       "id": "44b960fd-fa81-5376-8cb5-d1d471707aae",
       "productName": "Licensed Soft Salad",
       "quantity": 11,
@@ -489,36 +439,6 @@
       "cайт": "https://harvey.info",
       "кассир": "Agustina",
       "менеджер": "Jenifer"
-    },
-    {
-      "id": "6206401c-b9e8-5da4-b8c9-40cb378dd441",
-      "productName": "Awesome Granite Shoes",
-      "quantity": 14,
-      "price": 305,
-      "producer": "Medhurst, Prosacco and Brakus",
-      "cайт": "http://dejuan.name",
-      "кассир": "Autumn",
-      "менеджер": "Jenifer"
-    },
-    {
-      "id": "0c192902-93b2-5451-8ca2-28ac99e3847f",
-      "productName": "Handmade Plastic Soap",
-      "quantity": 81,
-      "price": 721,
-      "producer": "Schamberger, Mayert and Mitchell",
-      "cайт": "http://mike.net",
-      "кассир": "Bo",
-      "менеджер": "Sylvester"
-    },
-    {
-      "id": "aae9ca15-e069-53cd-9188-c775a9d3e5c1",
-      "productName": "Licensed Steel Pizza",
-      "quantity": 93,
-      "price": 89,
-      "producer": "Yost, Grimes and Stokes",
-      "cайт": "http://laury.com",
-      "кассир": "Arnaldo",
-      "менеджер": "Sylvester"
     }
   ]
 }
