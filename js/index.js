@@ -1,9 +1,11 @@
 let shopApp = angular.module('shopApp', []);
 
 shopApp.controller('purchaseCtrl', function ($scope, $http) {
+  const PORT = 3000;
+
   $http({
     method: 'GET',
-    url: 'http://localhost:3000/bd',
+    url: `http://localhost:${PORT}/bd`,
     headers: {
       'Content-type': 'application/json;charset=utf-8',
     },
@@ -59,11 +61,13 @@ shopApp.controller('purchaseCtrl', function ($scope, $http) {
       function postPurchaseInDB(data) {
         $http({
           method: 'POST',
-          url: 'http://localhost:3000/bd',
+          url: `http://localhost:${PORT}/bd`,
           headers: {
             'Content-type': 'application/json;charset=utf-8',
           },
           data: data,
+        }).catch((err) => {
+          showWarningMessage(err);
         });
       }
     };
@@ -75,10 +79,12 @@ shopApp.controller('purchaseCtrl', function ($scope, $http) {
       function deletePurchaseFromDB(id) {
         $http({
           method: 'DELETE',
-          url: 'http://localhost:3000/bd/' + id,
+          url: `http://localhost:${PORT}/bd/${id}`,
           headers: {
             'Content-type': 'application/json;charset=utf-8',
           },
+        }).catch((err) => {
+          showWarningMessage(err);
         });
       }
     };
@@ -94,11 +100,13 @@ shopApp.controller('purchaseCtrl', function ($scope, $http) {
     function editPurchaseInTable() {
       $http({
         method: 'PUT',
-        url: 'http://localhost:3000/bd/' + $scope.list[$scope.currentId].id,
+        url: `http://localhost:${PORT}/bd/${$scope.list[$scope.currentId].id}`,
         data: $scope.formList,
         headers: {
           'Content-type': 'application/json;charset=utf-8',
         },
+      }).catch((err) => {
+        showWarningMessage(err);
       });
     }
 
@@ -125,5 +133,12 @@ shopApp.controller('purchaseCtrl', function ($scope, $http) {
         return total;
       }
     })();
-  });
+  }, showWarningMessage);
+
+  function showWarningMessage(err) {
+    console.log(
+      'Убедитесь, что json-server запустился на 3000 порту, иначе поменяйте переменную PORT'
+    );
+    throw err;
+  }
 });
