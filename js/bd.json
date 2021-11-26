@@ -1,16 +1,6 @@
 {
   "bd": [
     {
-      "id": "9281f086-61b8-57fa-a2cb-bb437d4026cc",
-      "productName": "Licensed Frozen Gloves",
-      "quantity": 40,
-      "price": 266,
-      "producer": "Jacobi - Medhurst",
-      "cайт": "http://alexa.name",
-      "кассир": "Wilma",
-      "менеджер": "Ericka"
-    },
-    {
       "id": "96fb2282-0a6d-5198-876f-e4e2983b7051",
       "productName": "Ergonomic Concrete Chips",
       "quantity": 26,
@@ -309,16 +299,6 @@
       "cайт": "https://marlee.com",
       "кассир": "Nicholas",
       "менеджер": "Ericka"
-    },
-    {
-      "id": "ba8c9028-b893-5b05-bfcc-6bc90ac75590",
-      "productName": "Gorgeous Cotton Ball",
-      "quantity": 24,
-      "price": 835,
-      "producer": "Hoeger Group",
-      "cайт": "https://jaylan.name",
-      "кассир": "Maxwell",
-      "менеджер": "Will"
     },
     {
       "id": "9c2de9f8-49aa-5b14-81e1-58eb5a7a9e54",

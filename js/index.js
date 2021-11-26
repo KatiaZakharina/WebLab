@@ -40,12 +40,13 @@ shopApp.controller('purchaseCtrl', function ($scope, $http) {
     getAvg();
 
     $scope.action = 'Add';
+
     $scope.addNewPurchase = function (e) {
       if ($scope.action == 'Edit') {
         editPurchaseInTable();
+        $scope.action = 'Add';
         return;
       }
-      $scope.action = 'Add';
       if (document.querySelector(!$scope.postInputs.$valid)) return;
       for (let key in $scope.formList) {
         if (!$scope.formList[key]) {
@@ -57,6 +58,7 @@ shopApp.controller('purchaseCtrl', function ($scope, $http) {
       $scope.formList = {};
       getSum();
       getAvg();
+      getManagerInfo();
 
       function postPurchaseInDB(data) {
         $http({
@@ -75,6 +77,9 @@ shopApp.controller('purchaseCtrl', function ($scope, $http) {
     $scope.deletePurchase = function () {
       deletePurchaseFromDB($scope.list[this.$index].id);
       $scope.list.splice(this.$index, 1);
+      getSum();
+      getAvg();
+      getManagerInfo();
 
       function deletePurchaseFromDB(id) {
         $http({
@@ -90,11 +95,11 @@ shopApp.controller('purchaseCtrl', function ($scope, $http) {
     };
 
     $scope.editPurchase = function () {
-      $scope.action = 'Edit';
-      for (field in $scope.formList) {
-        $scope.formList[field] = $scope.list[this.$index][field];
-      }
       $scope.currentId = this.$index;
+      $scope.action = 'Edit';
+      for (field of $scope.fieldList) {
+        $scope.formList[field] = $scope.list[$scope.currentId][field];
+      }
     };
 
     function editPurchaseInTable() {
@@ -105,12 +110,16 @@ shopApp.controller('purchaseCtrl', function ($scope, $http) {
         headers: {
           'Content-type': 'application/json;charset=utf-8',
         },
-      }).catch((err) => {
-        showWarningMessage(err);
-      });
+      }).then(() => {
+        $scope.list[$scope.currentId] = { ...$scope.formList };
+        getSum();
+        getAvg();
+        getManagerInfo();
+        $scope.formList = {};
+      }, showWarningMessage);
     }
 
-    (function getManagerInfo(keyColumnNumb = 6, firstCrit = 2, secondCrit = 3) {
+    function getManagerInfo(keyColumnNumb = 6, firstCrit = 2, secondCrit = 3) {
       $scope.keyProperty = $scope.fieldList[7];
       $scope.allKeyValue = $scope.list.map((obj) => {
         return obj[$scope.keyProperty];
@@ -132,12 +141,13 @@ shopApp.controller('purchaseCtrl', function ($scope, $http) {
         });
         return total;
       }
-    })();
+    }
+    getManagerInfo();
   }, showWarningMessage);
 
   function showWarningMessage(err) {
     console.log(
-      'Убедитесь, что json-server запустился на 3000 порту, иначе поменяйте переменную PORT'
+      'Пожалуйста, убедитесь, что json-server запустился на 3000 порту, иначе поменяйте переменную PORT'
     );
     throw err;
   }
